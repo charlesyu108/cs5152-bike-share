@@ -46,7 +46,7 @@ class Messaging:
         except KeyboardInterrupt:
             self.shutdown()
 
-    def send_message(self, to_, msg):
+    def send_message(self, to, msg):
         # TODO: Implement!
         pass
 

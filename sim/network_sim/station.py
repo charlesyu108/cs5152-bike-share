@@ -9,24 +9,21 @@ import iothub_client
 from iothub_client import IoTHubClient, IoTHubClientError, IoTHubTransportProvider, IoTHubClientResult
 from iothub_client import IoTHubMessage, IoTHubMessageDispositionResult, IoTHubError, DeviceMethodReturnValue
 
-CONNECTION_STRING = "HostName=bike-tester-hub.azure-devices.net;DeviceId=testerdevice;SharedAccessKey=ln1gV5fGxEhDlycfooCDEXv9eyrZzp6huzcF1raSxvg="
-
 # Using the MQTT protocol.
 PROTOCOL = IoTHubTransportProvider.MQTT
 MESSAGE_TIMEOUT = 10000
-
 
 class Station:
     """
     Models a Bike Station.
     """
-    def __init__(self, id, name, listening_port=8080):
+    def __init__(self, id, name, conn_string, listening_port=8080):
         self.id = id
         self.port = listening_port
         self.name = name
         self.messaging = Messaging(port=listening_port)
         self.is_running = False
-        self.iothub_client = IoTHubClient(CONNECTION_STRING, PROTOCOL)
+        self.iothub_client = IoTHubClient(conn_string, PROTOCOL)
 
     def notify_iothub(self, msg):
         message = IoTHubMessage(msg.to_json())
@@ -60,7 +57,6 @@ class Station:
         print("Station {} shutdown.".format(self.name))
 
 if __name__ == "__main__":
-    # parse argv - get host ports and parents
-    station_id, port = sys.argv[1], sys.argv[2]
-    station = Station(station_id, "stn " + station_id, int(port))
+    station_id, port, conn_string = sys.argv[1], sys.argv[2], sys.argv[3]
+    station = Station(station_id, "stn " + station_id, conn_string, int(port))
     station.run()
