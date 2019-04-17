@@ -1,10 +1,8 @@
 #! /usr/bin/env python
 # Python 2.7
-# Azure IOT Hub Client
+
 from messaging import Messaging, Message
-
 import sys, threading
-
 import iothub_client
 from iothub_client import IoTHubClient, IoTHubClientError, IoTHubTransportProvider, IoTHubClientResult
 from iothub_client import IoTHubMessage, IoTHubMessageDispositionResult, IoTHubError, DeviceMethodReturnValue
