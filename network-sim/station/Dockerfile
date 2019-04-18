@@ -14,4 +14,4 @@ RUN pip install azure-iothub-device-client
 
 EXPOSE 80
 
-CMD ["python", "station.py", "${STATION_ID}", "80", "${CONN_STRING}"]
+ENTRYPOINT python station.py "$STATION_ID" 80 "$CONN_STRING"
