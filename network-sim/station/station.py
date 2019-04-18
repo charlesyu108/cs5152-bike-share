@@ -2,7 +2,7 @@
 # Python 2.7
 
 from messaging import Messaging, Message
-import sys, threading
+import sys, threading, logging
 import iothub_client
 from iothub_client import IoTHubClient, IoTHubClientError, IoTHubTransportProvider, IoTHubClientResult
 from iothub_client import IoTHubMessage, IoTHubMessageDispositionResult, IoTHubError, DeviceMethodReturnValue
@@ -22,17 +22,20 @@ class Station:
         self.messaging = Messaging(port=listening_port)
         self.is_running = False
         self.iothub_client = IoTHubClient(conn_string, PROTOCOL)
+        logging.info("Station was created successfully.")
 
     def notify_iothub(self, msg):
-        message = IoTHubMessage(msg.to_json())
-        self.iothub_client.send_event_async(message, self.iothub_callback, None)
+        json_msg = msg.to_json()
+        iot_hub_msg = IoTHubMessage(json_msg)
+        self.iothub_client.send_event_async(iot_hub_msg, self.iothub_callback, None)
+        logging.info("Station notified hub")
 
     def iothub_callback(self, message, result, user_context):
-        print ( "IoT Hub responded to message with status: %s" % (result) )
+        logging.info ( "IoT Hub responded to message with status: %s" % (result) )
 
     def run(self):
         self.is_running = True
-        print("Station {} is now running! Listening on port {}".format(self.name, self.port))
+        logging.info("Station {} is now running! Listening on port {}".format(self.name, self.port))
 
         msg_thread = threading.Thread(target=self.messaging.start_listening)
         msg_thread.daemon = True
@@ -52,7 +55,7 @@ class Station:
             else:
                 #TODO bad message
                 pass
-        print("Station {} shutdown.".format(self.name))
+        logging.info("Station {} shutdown.".format(self.name))
 
 if __name__ == "__main__":
     station_id, port, conn_string = sys.argv[1], sys.argv[2], sys.argv[3]
