@@ -7,13 +7,12 @@ class Event:
     """
     Represents a bike check-in or check-out event.
     """
-    class EventType: BIKE_TAKE, BIKE_RETURN = 0, 1
+    class EventType: BIKE_TAKE, BIKE_RETURN = "TAKE", "RETURN"
 
-    def __init__(self, bike_id, time, event_type, src_id, dest_id):
-        self.bike = bike_id
+    def __init__(self, user_id, time, event_type, station_id):
+        self.user = user_id
         self.time = time
-        self.src = src_id
-        self.dest = dest_id
+        self.station = station_id
         self.type = event_type
 
     def to_message_json(self):
