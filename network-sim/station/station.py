@@ -7,6 +7,8 @@ import iothub_client
 from iothub_client import IoTHubClient, IoTHubClientError, IoTHubTransportProvider, IoTHubClientResult
 from iothub_client import IoTHubMessage, IoTHubMessageDispositionResult, IoTHubError, DeviceMethodReturnValue
 
+logging.getLogger().setLevel(logging.INFO)
+
 # Using the MQTT protocol.
 PROTOCOL = IoTHubTransportProvider.MQTT
 MESSAGE_TIMEOUT = 10000
@@ -44,6 +46,7 @@ class Station:
         while self.is_running:
 
             msg = self.messaging.get_message()
+            logging.info("Processing new message...")
 
             if msg.type == Message.MessageType.BIKE_TAKE:
                 self.notify_iothub(msg)
@@ -54,6 +57,7 @@ class Station:
                 pass
             else:
                 #TODO bad message
+                logging.warn("Encountered unknown message type :" + msg.type)
                 pass
         logging.info("Station {} shutdown.".format(self.name))
 

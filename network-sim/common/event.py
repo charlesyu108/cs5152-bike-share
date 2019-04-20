@@ -16,5 +16,6 @@ class Event:
         self.type = event_type
 
     def to_message_json(self):
-        message = Message(self.type, self.__dict__)
+        m_type = Message.MessageType.BIKE_TAKE if self.type == Event.EventType.BIKE_TAKE else Message.MessageType.BIKE_RETURN
+        message = Message(m_type, self.__dict__)
         return message.to_json()
