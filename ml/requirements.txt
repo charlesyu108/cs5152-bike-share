@@ -1,0 +1,8 @@
+numpy==1.15.1
+pandas==0.23.4
+requests==2.19.1
+azure-common==1.1.19
+azure-storage-common==1.4.0
+azure-storage-queue==1.4.0
+python-dotenv==0.10.1
+scikit-learn==0.20.0
