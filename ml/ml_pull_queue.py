@@ -30,9 +30,11 @@ def parse_result(message):
     # Messages are B64 encoded by default
     decoded_bytes = base64.b64decode(message)
     decoded_string = decoded_bytes.decode('utf-8')
+    print(decoded_string)
     msg = json.loads(decoded_string)
-    info = msg['info']
-    return Event(info['type'], info['station'], info['time'])
+    if 'info' in msg:
+        msg = msg['info']
+    return Event(msg['type'], msg['station'], int(msg['time']))
 
 global PREDICTION
 PREDICTION = None
